@@ -1,4 +1,7 @@
 @import url('fonts.css');
+*{
+    user-select: none;
+}
 
 p, div, body{
     margin: 0;

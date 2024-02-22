@@ -4,6 +4,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    user-select: none;
+    font-family: 'Consolas';
     /* font-family: PixeloidSans; */
 }
 
@@ -162,11 +164,19 @@ footer{
 }
 
 #moderncross{
-    width: 1vw;
+    width: 25px;
+    padding: 5px;
 }
 
 #moderncross:hover{
     cursor: pointer;
+    background-color: red;
+}
+
+@media (max-width: 800px){
+    #search_field{
+        display: none;
+    }
 }
 
 @media (max-width: 400px){
@@ -177,7 +187,7 @@ footer{
         display: none;
     }
     #moderncross{
-        width: 3vw;
+        width: 7vw;
     }
     #vscode_logo{
         width: 4vw;

@@ -1,5 +1,8 @@
 @import url('notepad.css');
 
+*{
+    user-select: none;
+}
 #screens{
     display: flex;
     flex-direction: row;

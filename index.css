@@ -1,4 +1,9 @@
 @import url('fonts.css');
+
+*{
+    user-select: none;
+}
+
 body {
     background-color: #242426;
     display: flex;
