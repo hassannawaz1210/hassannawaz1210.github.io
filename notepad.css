@@ -7,6 +7,10 @@
     font-family: PixeloidSans;
 }
 
+body{
+    overflow: hidden;
+}
+
 #body_wrapper{
     border: 15px solid #BDBEBD;
     border-bottom: 30px solid #BDBEBD;
