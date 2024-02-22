@@ -1,0 +1,81 @@
+@import url('fonts.css');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: PixeloidSans;
+}
+
+#body_wrapper{
+    border: 15px solid #BDBEBD;
+    border-bottom: 30px solid #BDBEBD;
+    height: 100%;
+}
+
+#body{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    gap:20px;
+}
+
+#body_outline{
+    border: 2px solid black;
+    padding: 20px;
+}
+
+#titleBar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 10%;
+    border: 5px solid #BDBEBD;
+    background: linear-gradient(to right, #00008B, #0000CD);
+    padding: 2px;
+    border-bottom: 0px;
+}
+
+#title{
+    font-size: 1rem;
+    color: white;
+    font-family: PixeloidSans;
+}
+
+#titlebar_sub{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+#optionsbar{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 10%;
+    border: 5px solid #BDBEBD;
+    background: #a0a0a0;
+    padding: 5px;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#optionsbar p:hover{
+    background-color: blue;
+    color: white;
+}
+
+#notepad{
+    width: 3vh;
+}
+
+#crossbutton{
+    width: 3vh;
+    cursor: pointer;
+}
+

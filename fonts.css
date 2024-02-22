@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'PixeloidMono';
+    src: url('fonts/PixeloidMono-d94EV.ttf');
+}
+
+@font-face {
+    font-family: 'PixeloidSans';
+    src: url('fonts/PixeloidSans-mLxMm.ttf');
+}
+
+@font-face {
+    font-family: 'PixeloidSansBold';
+    src: url('fonts/PixeloidSansBold-PKnYd.ttf');
+}
+
+@font-face {
+    font-family: 'PixelBoy';
+    src: url('fonts/Pixeboy-z8XGD.ttf');
+}
+
+@font-face {
+    font-family: 'Mozart';
+    src: url('fonts/MozartNbp-93Ey.ttf');
+}
+
+@font-face {
+    font-family: 'Dairy8Bit';
+    src: url('fonts/DiaryOfAn8BitMage-lYDD.ttf');
+}
+
+@font-face {
+    font-family: 'Minecraft';
+    src: url('fonts/Minecraft.ttf');
+}
+
+@font-face {
+    font-family: 'Pixeled';
+    src: url('fonts/Pixeled.ttf');
+}
+
+@font-face {
+    font-family: 'RetroComputer';
+    src: url('fonts/retro_computer_personal_use.ttf');
+}

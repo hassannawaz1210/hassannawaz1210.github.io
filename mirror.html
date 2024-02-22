@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Trash bin</title>
+
+        <style>
+        @import url('fonts.css');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            overflow: hidden;
+        }
+
+        #container{
+            background-color: black;
+            color: white;
+            font-family: PixeloidSans;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            width: 100%;
+            height: 100vh
+        }
+
+        .close-icon {
+        position: absolute;
+        top: 30px;
+        right: 20px;
+        height: 25px;
+        width: 25px;
+        }
+
+        .close-icon .bar1, .close-icon .bar2 {
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        .close-icon .bar1 {
+            transform: rotate(45deg);
+        }
+
+        .close-icon .bar2 {
+            transform: rotate(-45deg);
+        }
+    </style>
+    </head>
+    <body>
+        <div id="container">
+            <p>*mirror*</p>
+        </div>
+        <a href="desktop.html">
+            <div class="close-icon">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+            </div>
+        </a>
+    </body>
+</html>

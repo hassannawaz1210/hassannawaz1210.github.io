@@ -1,0 +1,81 @@
+@import url('fonts.css');
+
+p, div, body{
+    margin: 0;
+    padding: 0;   
+}
+
+body{
+    position: relative;
+    overflow: hidden;
+}
+
+div.bg{
+    background-color: #288DFF;
+    background-image: url('assets/heart.webp');
+    background-position: center;
+    background-size: 300px 300px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: heartbeat 1s infinite;
+}
+
+@keyframes heartbeat {
+    0% { background-size: 30%; }
+    50% { background-size: 40%; }
+    100% { background-size: 30%; }
+}
+
+p{
+    padding: 10px;
+    position: relative;
+    color:white;
+    font-family: 'PixeloidSans';
+    z-index: 1;
+}
+
+#title{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.myButton {
+    font-family: 'Minecraft';
+    position: relative;
+    z-index: 1;
+    margin: 10px;
+    display: block;
+    width: 10%;
+    padding: 10px 10px;
+    color: white;
+    background: transparent;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid white;
+    transition: background-color .5s ease;
+}
+
+.myButton:hover {
+    background-color: white;
+    color: black
+}
+
+@media (max-width: 400px) {
+    .myButton{
+        width: 30%;
+    }
+
+}
