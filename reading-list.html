@@ -81,6 +81,7 @@
     </div>
     <script>
         const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
+        const safeHref = u => /^https?:\/\//i.test(u || '') ? u : '#';
         const esc = s => (s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
         fetch('links.json?cb=' + Date.now())
             .then(r => r.json())
@@ -89,7 +90,7 @@
                 if (!items.length) { el.textContent = 'nothing yet'; return; }
                 el.innerHTML = items.map(i => `
                     <div class="item">
-                        <a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.title) || host(i.url)}</a>
+                        <a href="${esc(safeHref(i.url))}" target="_blank" rel="noopener">${esc(i.title) || host(i.url)}</a>
                         <span class="meta">${esc(host(i.url))}${i.date ? ' · ' + esc(i.date) : ''}</span>
                         ${i.note ? `<span class="note">${esc(i.note)}</span>` : ''}
                     </div>`).join('');

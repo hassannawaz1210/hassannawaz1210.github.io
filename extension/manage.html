@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manage reading list</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 640px; margin: 24px auto; padding: 0 16px; }
+  h3 { margin: 0 0 4px; }
+  #status { font-size: 13px; min-height: 18px; color: #666; }
+  .err { color: #c00; } .ok { color: #080; }
+  .item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #eee; }
+  .item .body { flex: 1; min-width: 0; }
+  .item a { color: #0000CD; text-decoration: none; font-weight: 600; word-break: break-all; }
+  .item .meta { display: block; color: #888; font-size: 12px; }
+  .item .note { display: block; color: #444; font-size: 13px; margin-top: 2px; }
+  .del { background: #c00; color: #fff; border: 0; border-radius: 4px; cursor: pointer; padding: 4px 9px; font-weight: 700; }
+  .del:disabled { opacity: .5; cursor: default; }
+</style>
+</head>
+<body>
+  <h3>📚 Manage reading list</h3>
+  <div id="status">loading…</div>
+  <div id="list"></div>
+  <script src="github.js"></script>
+  <script src="manage.js"></script>
+</body>
+</html>
