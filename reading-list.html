@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="notepad.css">
+    <title>Reading List</title>
+    <style>
+        /* reading-list specific: list inside the notepad body */
+        #body_wrapper{
+            background: white;
+            overflow-y: auto;
+        }
+        #reading{
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        #reading h1{
+            font-family: PixeloidSansBold;
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+        #reading .sub{
+            color: #555;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+        .item{
+            border-bottom: 1px dashed #c0c0c0;
+            padding-bottom: 12px;
+        }
+        .item a{
+            color: #0000CD;
+            font-family: PixeloidSansBold;
+            font-size: 1rem;
+            text-decoration: none;
+            user-select: text;
+        }
+        .item a:hover{ text-decoration: underline; }
+        .item .meta{
+            display: block;
+            color: #777;
+            font-size: 0.75rem;
+            margin-top: 2px;
+        }
+        .item .note{
+            display: block;
+            color: #333;
+            font-size: 0.85rem;
+            margin-top: 4px;
+            user-select: text;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="titleBar">
+            <div id="titlebar_sub">
+                <div><img src="assets/notepad.png" alt="notepad" id="notepad"></div>
+                <div><p id="title">Reading List</p></div>
+            </div>
+            <div>
+                <a href="desktop.html"><img src="assets/crossbutton.png" alt="close" id="crossbutton"></a>
+            </div>
+        </div>
+        <div id="optionsbar">
+            <p><u>F</u>ile</p>
+            <p><u>E</u>dit</p>
+            <p><u>S</u>earch</p>
+            <p><u>H</u>elp</p>
+        </div>
+    </header>
+    <div id="body_wrapper">
+        <div id="reading">
+            <h1>📚 Stuff I liked reading</h1>
+            <p class="sub">Blogs, articles & links worth keeping. Newest on top.</p>
+
+            <!-- copy a .item block to add an entry -->
+            <div class="item">
+                <a href="https://example.com" target="_blank" rel="noopener">Example — replace me</a>
+                <span class="meta">example.com · 2026-06-23</span>
+                <span class="note">why I liked it goes here</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
