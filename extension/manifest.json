@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Reading List",
+  "version": "1.0",
+  "description": "Add the current page to my GitHub-hosted reading list.",
+  "permissions": ["activeTab", "tabs", "storage"],
+  "host_permissions": ["https://api.github.com/*"],
+  "action": { "default_popup": "popup.html" },
+  "options_page": "options.html"
+}

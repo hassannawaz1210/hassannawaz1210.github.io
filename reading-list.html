@@ -76,14 +76,25 @@
         <div id="reading">
             <h1>📚 Stuff I liked reading</h1>
             <p class="sub">Blogs, articles & links worth keeping. Newest on top.</p>
-
-            <!-- copy a .item block to add an entry -->
-            <div class="item">
-                <a href="https://example.com" target="_blank" rel="noopener">Example — replace me</a>
-                <span class="meta">example.com · 2026-06-23</span>
-                <span class="note">why I liked it goes here</span>
-            </div>
+            <div id="list">loading…</div>
         </div>
     </div>
+    <script>
+        const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
+        const esc = s => (s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+        fetch('links.json?cb=' + Date.now())
+            .then(r => r.json())
+            .then(items => {
+                const el = document.getElementById('list');
+                if (!items.length) { el.textContent = 'nothing yet'; return; }
+                el.innerHTML = items.map(i => `
+                    <div class="item">
+                        <a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.title) || host(i.url)}</a>
+                        <span class="meta">${esc(host(i.url))}${i.date ? ' · ' + esc(i.date) : ''}</span>
+                        ${i.note ? `<span class="note">${esc(i.note)}</span>` : ''}
+                    </div>`).join('');
+            })
+            .catch(() => { document.getElementById('list').textContent = 'failed to load links.json'; });
+    </script>
 </body>
 </html>
