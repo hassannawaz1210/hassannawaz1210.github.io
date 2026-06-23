@@ -1,101 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="notepad.css">
-    <title>Reading List</title>
-    <style>
-        /* reading-list specific: list inside the notepad body */
-        #body_wrapper{
-            background: white;
-            overflow-y: auto;
-        }
-        #reading{
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-        #reading h1{
-            font-family: PixeloidSansBold;
-            font-size: 1.4rem;
-            margin-bottom: 4px;
-        }
-        #reading .sub{
-            color: #555;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-        }
-        .item{
-            border-bottom: 1px dashed #c0c0c0;
-            padding-bottom: 12px;
-        }
-        .item a{
-            color: #0000CD;
-            font-family: PixeloidSansBold;
-            font-size: 1rem;
-            text-decoration: none;
-            user-select: text;
-        }
-        .item a:hover{ text-decoration: underline; }
-        .item .meta{
-            display: block;
-            color: #777;
-            font-size: 0.75rem;
-            margin-top: 2px;
-        }
-        .item .note{
-            display: block;
-            color: #333;
-            font-size: 0.85rem;
-            margin-top: 4px;
-            user-select: text;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading List</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font: 16px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+  h1 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+  .sub { color: #888; font-size: .8rem; margin-bottom: 48px; }
+  ul { list-style: none; }
+  li { margin-bottom: 28px; }
+  a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
+  a:hover { opacity: .6; }
+  .meta { display: block; color: #888; font-size: .75rem; margin-top: 4px; }
+  .note { display: block; color: #aaa; font-size: .8rem; margin-top: 2px; }
+  #list.empty { color: #888; }
+</style>
 </head>
 <body>
-    <header>
-        <div id="titleBar">
-            <div id="titlebar_sub">
-                <div><img src="assets/notepad.png" alt="notepad" id="notepad"></div>
-                <div><p id="title">Reading List</p></div>
-            </div>
-            <div>
-                <a href="desktop.html"><img src="assets/crossbutton.png" alt="close" id="crossbutton"></a>
-            </div>
-        </div>
-        <div id="optionsbar">
-            <p><u>F</u>ile</p>
-            <p><u>E</u>dit</p>
-            <p><u>S</u>earch</p>
-            <p><u>H</u>elp</p>
-        </div>
-    </header>
-    <div id="body_wrapper">
-        <div id="reading">
-            <h1>📚 Stuff I liked reading</h1>
-            <p class="sub">Blogs, articles & links worth keeping. Newest on top.</p>
-            <div id="list">loading…</div>
-        </div>
-    </div>
-    <script>
-        const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
-        const safeHref = u => /^https?:\/\//i.test(u || '') ? u : '#';
-        const esc = s => (s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-        fetch('links.json?cb=' + Date.now())
-            .then(r => r.json())
-            .then(items => {
-                const el = document.getElementById('list');
-                if (!items.length) { el.textContent = 'nothing yet'; return; }
-                el.innerHTML = items.map(i => `
-                    <div class="item">
-                        <a href="${esc(safeHref(i.url))}" target="_blank" rel="noopener">${esc(i.title) || host(i.url)}</a>
-                        <span class="meta">${esc(host(i.url))}${i.date ? ' · ' + esc(i.date) : ''}</span>
-                        ${i.note ? `<span class="note">${esc(i.note)}</span>` : ''}
-                    </div>`).join('');
-            })
-            .catch(() => { document.getElementById('list').textContent = 'failed to load links.json'; });
-    </script>
+  <h1>Reading list</h1>
+  <p class="sub">things i liked reading</p>
+  <ul id="list" class="empty">loading…</ul>
+  <script>
+    const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
+    const safeHref = u => /^https?:\/\//i.test(u || '') ? u : '#';
+    const esc = s => (s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    fetch('links.json?cb=' + Date.now())
+      .then(r => r.json())
+      .then(items => {
+        const el = document.getElementById('list');
+        if (!items.length) { el.textContent = 'nothing yet'; return; }
+        el.classList.remove('empty');
+        el.innerHTML = items.map(i => `
+          <li>
+            <a href="${esc(safeHref(i.url))}" target="_blank" rel="noopener">${esc(i.title) || host(i.url)}</a>
+            <span class="meta">${esc(host(i.url))}${i.date ? ' · ' + esc(i.date) : ''}</span>
+            ${i.note ? `<span class="note">${esc(i.note)}</span>` : ''}
+          </li>`).join('');
+      })
+      .catch(() => { document.getElementById('list').textContent = 'failed to load links.json'; });
+  </script>
 </body>
 </html>
