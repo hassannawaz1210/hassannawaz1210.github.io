@@ -36,6 +36,7 @@
   #pager { display: flex; gap: 16px; align-items: center; margin-top: 32px; font-size: .8rem; color: #888; }
   #pager button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; padding: 0; border-bottom: 1px solid currentColor; }
   #pager button:disabled { cursor: default; opacity: .35; border-bottom-color: transparent; }
+  .pin { opacity: .55; margin-right: 6px; }
 </style>
 </head>
 <body>
@@ -73,7 +74,7 @@
       el.classList.remove('empty');
       el.innerHTML = slice.map(i => `
         <li>
-          <a href="${esc(safeHref(i.url))}" target="_blank" rel="noopener">${esc(i.title) || host(i.url)}</a>
+          ${i.pinned ? '<span class="pin">★</span>' : ''}<a href="${esc(safeHref(i.url))}" target="_blank" rel="noopener">${esc(i.title) || host(i.url)}</a>
           <span class="meta">${esc(host(i.url))}${i.date ? ' · ' + esc(i.date) : ''}</span>
           ${i.note ? `<span class="note">${esc(i.note)}</span>` : ''}
         </li>`).join('');
@@ -92,7 +93,8 @@
 
     fetch('links.json?cb=' + Date.now())
       .then(r => r.json())
-      .then(items => { all = items; render(); })
+      // stable sort: pinned first, original order preserved otherwise
+      .then(items => { all = items.slice().sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0)); render(); })
       .catch(() => { el.textContent = 'failed to load links.json'; });
   </script>
 </body>

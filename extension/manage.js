@@ -26,12 +26,35 @@ function render(list, sha) {
         <span class="meta">${esc(host(i.url))}${i.date ? ' · ' + esc(i.date) : ''}</span>
         ${i.note ? `<span class="note">${esc(i.note)}</span>` : ''}
       </div>
+      <button class="pin${i.pinned ? ' on' : ''}" data-idx="${idx}">${i.pinned ? '★ pinned' : '☆ pin'}</button>
       <button class="del" data-idx="${idx}">✕</button>
     </div>`).join('');
 
   document.querySelectorAll('.del').forEach(btn => {
     btn.onclick = () => remove(parseInt(btn.dataset.idx, 10), list[parseInt(btn.dataset.idx, 10)]);
   });
+  document.querySelectorAll('.pin').forEach(btn => {
+    btn.onclick = () => togglePin(list[parseInt(btn.dataset.idx, 10)]);
+  });
+}
+
+async function togglePin(entry) {
+  document.querySelectorAll('.pin, .del').forEach(b => b.disabled = true);
+  status('Saving…');
+  try {
+    // re-fetch for current sha; match by url+date+title to survive reordering
+    const { list, sha } = await fetchList(cfg);
+    const at = list.findIndex(i => i.url === entry.url && i.date === entry.date && i.title === entry.title);
+    if (at < 0) throw new Error('Entry not found');
+    list[at].pinned = !list[at].pinned;
+    const verb = list[at].pinned ? 'Pin' : 'Unpin';
+    await saveList(cfg, list, sha, `${verb} reading-list link: ${entry.title || entry.url}`);
+    render(list, sha);
+    status(`${verb}ned ✓`, 'ok');
+  } catch (e) {
+    status(e.message, 'err');
+    document.querySelectorAll('.pin, .del').forEach(b => b.disabled = false);
+  }
 }
 
 async function remove(idx, entry) {

@@ -14,7 +14,9 @@
   .item .meta { display: block; color: #888; font-size: 12px; }
   .item .note { display: block; color: #444; font-size: 13px; margin-top: 2px; }
   .del { background: #c00; color: #fff; border: 0; border-radius: 4px; cursor: pointer; padding: 4px 9px; font-weight: 700; }
-  .del:disabled { opacity: .5; cursor: default; }
+  .pin { background: #eee; color: #333; border: 0; border-radius: 4px; cursor: pointer; padding: 4px 9px; font-weight: 600; }
+  .pin.on { background: #0000CD; color: #fff; }
+  .del:disabled, .pin:disabled { opacity: .5; cursor: default; }
 </style>
 </head>
 <body>
