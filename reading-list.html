@@ -4,15 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reading List</title>
+<script>
+  // apply saved theme before paint to avoid a flash
+  const t = localStorage.getItem('theme');
+  if (t) document.documentElement.classList.add(t);
+</script>
 <style>
-  :root { color-scheme: light dark; }
+  :root { color-scheme: light dark; --bg: #fff; --fg: #111; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #111; --fg: #eee; } }
+  html.light { color-scheme: light; --bg: #fff; --fg: #111; }
+  html.dark { color-scheme: dark; --bg: #111; --fg: #eee; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font: 16px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
     max-width: 640px;
     margin: 0 auto;
     padding: 80px 24px;
+    background: var(--bg);
+    color: var(--fg);
   }
+  #theme {
+    position: fixed; top: 20px; right: 20px;
+    font: inherit; color: inherit; background: none;
+    border: 1px solid currentColor; border-radius: 4px;
+    padding: 3px 9px; cursor: pointer; opacity: .6;
+  }
+  #theme:hover { opacity: 1; }
   h1 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
   .sub { color: #888; font-size: .8rem; margin-bottom: 48px; }
   ul { list-style: none; }
@@ -40,6 +57,7 @@
 </style>
 </head>
 <body>
+  <button id="theme">theme</button>
   <h1>Reading list</h1>
   <p class="sub">things i liked reading</p>
   <input id="search" type="search" placeholder="search…" autocomplete="off">
@@ -90,6 +108,21 @@
     };
 
     search.addEventListener('input', () => { page = 0; render(); });
+
+    // theme toggle: cycles light/dark, defaults to OS when never set
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('theme');
+    const isDark = () => root.classList.contains('dark') ||
+      (!root.classList.contains('light') && matchMedia('(prefers-color-scheme: dark)').matches);
+    const syncLabel = () => { themeBtn.textContent = isDark() ? '☀ light' : '☾ dark'; };
+    themeBtn.onclick = () => {
+      const next = isDark() ? 'light' : 'dark';
+      root.classList.remove('light', 'dark');
+      root.classList.add(next);
+      localStorage.setItem('theme', next);
+      syncLabel();
+    };
+    syncLabel();
 
     fetch('links.json?cb=' + Date.now())
       .then(r => r.json())
