@@ -22,30 +22,78 @@
   .meta { display: block; color: #888; font-size: .75rem; margin-top: 4px; }
   .note { display: block; color: #aaa; font-size: .8rem; margin-top: 2px; }
   #list.empty { color: #888; }
+  #search {
+    font: inherit;
+    width: 100%;
+    padding: 6px 0;
+    margin-bottom: 32px;
+    background: transparent;
+    color: inherit;
+    border: none;
+    border-bottom: 1px solid currentColor;
+    outline: none;
+  }
+  #pager { display: flex; gap: 16px; align-items: center; margin-top: 32px; font-size: .8rem; color: #888; }
+  #pager button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; padding: 0; border-bottom: 1px solid currentColor; }
+  #pager button:disabled { cursor: default; opacity: .35; border-bottom-color: transparent; }
 </style>
 </head>
 <body>
   <h1>Reading list</h1>
   <p class="sub">things i liked reading</p>
+  <input id="search" type="search" placeholder="search…" autocomplete="off">
   <ul id="list" class="empty">loading…</ul>
+  <div id="pager"></div>
   <script>
     const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
     const safeHref = u => /^https?:\/\//i.test(u || '') ? u : '#';
     const esc = s => (s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    const PER_PAGE = 20;
+    const el = document.getElementById('list');
+    const pager = document.getElementById('pager');
+    const search = document.getElementById('search');
+    let all = [], page = 0;
+
+    const render = () => {
+      const q = search.value.trim().toLowerCase();
+      const matches = q
+        ? all.filter(i => `${i.title} ${i.note} ${host(i.url)}`.toLowerCase().includes(q))
+        : all;
+      const pages = Math.max(1, Math.ceil(matches.length / PER_PAGE));
+      if (page >= pages) page = pages - 1;
+      const slice = matches.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
+
+      if (!slice.length) {
+        el.classList.add('empty');
+        el.textContent = q ? 'no matches' : 'nothing yet';
+        pager.innerHTML = '';
+        return;
+      }
+      el.classList.remove('empty');
+      el.innerHTML = slice.map(i => `
+        <li>
+          <a href="${esc(safeHref(i.url))}" target="_blank" rel="noopener">${esc(i.title) || host(i.url)}</a>
+          <span class="meta">${esc(host(i.url))}${i.date ? ' · ' + esc(i.date) : ''}</span>
+          ${i.note ? `<span class="note">${esc(i.note)}</span>` : ''}
+        </li>`).join('');
+
+      pager.innerHTML = pages > 1
+        ? `<button id="prev"${page === 0 ? ' disabled' : ''}>← prev</button>
+           <span>${page + 1} / ${pages}</span>
+           <button id="next"${page === pages - 1 ? ' disabled' : ''}>next →</button>`
+        : '';
+      const prev = document.getElementById('prev'), next = document.getElementById('next');
+      if (prev) prev.onclick = () => { page--; render(); };
+      if (next) next.onclick = () => { page++; render(); };
+    };
+
+    search.addEventListener('input', () => { page = 0; render(); });
+
     fetch('links.json?cb=' + Date.now())
       .then(r => r.json())
-      .then(items => {
-        const el = document.getElementById('list');
-        if (!items.length) { el.textContent = 'nothing yet'; return; }
-        el.classList.remove('empty');
-        el.innerHTML = items.map(i => `
-          <li>
-            <a href="${esc(safeHref(i.url))}" target="_blank" rel="noopener">${esc(i.title) || host(i.url)}</a>
-            <span class="meta">${esc(host(i.url))}${i.date ? ' · ' + esc(i.date) : ''}</span>
-            ${i.note ? `<span class="note">${esc(i.note)}</span>` : ''}
-          </li>`).join('');
-      })
-      .catch(() => { document.getElementById('list').textContent = 'failed to load links.json'; });
+      .then(items => { all = items; render(); })
+      .catch(() => { el.textContent = 'failed to load links.json'; });
   </script>
 </body>
 </html>
