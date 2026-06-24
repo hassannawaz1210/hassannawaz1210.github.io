@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <meta http-equiv="refresh" content="0; url=reading-list.html">
+     <script>
+       // reading.hassannawaz.dev → reading list; everything else → portfolio
+       location.replace(location.hostname === 'reading.hassannawaz.dev'
+         ? 'reading-list.html'
+         : 'https://hassansportfolio.onrender.com');
+     </script>
+     <noscript><meta http-equiv="refresh" content="0; url=https://hassansportfolio.onrender.com"></noscript>
     <link rel="stylesheet" href="index.css">
     <title>Home</title>
 </head>
