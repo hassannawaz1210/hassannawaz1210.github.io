@@ -25,9 +25,9 @@
   }
   #theme {
     position: fixed; top: 20px; right: 20px;
-    font: inherit; color: inherit; background: none;
-    border: 1px solid currentColor; border-radius: 4px;
-    padding: 3px 9px; cursor: pointer; opacity: .6;
+    font: inherit; font-size: 1.2rem; line-height: 1;
+    color: inherit; background: none; border: none;
+    padding: 0; cursor: pointer; opacity: .55;
   }
   #theme:hover { opacity: 1; }
   h1 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
@@ -114,7 +114,7 @@
     const themeBtn = document.getElementById('theme');
     const isDark = () => root.classList.contains('dark') ||
       (!root.classList.contains('light') && matchMedia('(prefers-color-scheme: dark)').matches);
-    const syncLabel = () => { themeBtn.textContent = isDark() ? '☀ light' : '☾ dark'; };
+    const syncLabel = () => { themeBtn.textContent = isDark() ? '☀' : '☾'; };
     themeBtn.onclick = () => {
       const next = isDark() ? 'light' : 'dark';
       root.classList.remove('light', 'dark');
