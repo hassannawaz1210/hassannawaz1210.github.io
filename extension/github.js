@@ -5,6 +5,9 @@ const dec = s => decodeURIComponent(escape(atob(s)));        // base64 -> utf8
 async function getCfg() {
   const cfg = await chrome.storage.sync.get(['token', 'owner', 'repo', 'path', 'branch']);
   if (!cfg.token || !cfg.owner || !cfg.repo) throw new Error('Set token/owner/repo in Settings.');
+  // tolerate a pasted repo URL or owner/repo: keep just the repo name
+  cfg.repo = cfg.repo.trim().replace(/\.git$/, '').replace(/\/+$/, '').split('/').pop();
+  cfg.owner = cfg.owner.trim();
   cfg.path ||= 'links.json';
   cfg.branch ||= 'main';
   return cfg;
